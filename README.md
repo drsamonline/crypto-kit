@@ -1,5 +1,9 @@
 # crypto-kit
 
+[![live](https://img.shields.io/badge/live-online-22c55e)](https://drsamonline.github.io/crypto-kit/)
+[![license](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
+
+
 **The shared crypto core for drsamonline apps.** One file, no dependencies,
 built on the Web Crypto API.
 
