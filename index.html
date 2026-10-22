@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>crypto-kit — the shared crypto core</title>
+<style>
+  :root{--bg:#0f1115;--card:#171a21;--ink:#e7e9ee;--mut:#9aa3b2;--line:#252a34;--acc:#22c55e}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
+  header,main,footer{max-width:760px;margin:0 auto;padding:24px 20px}
+  h1{margin:0 0 6px;font-size:24px}
+  .mut{color:var(--mut)}
+  .grid{display:grid;gap:12px;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));margin:18px 0}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px}
+  .card h3{margin:0 0 4px;font-size:14px}
+  .card p{margin:0;color:var(--mut);font-size:13px}
+  .btn{display:inline-block;background:var(--acc);color:#06210f;text-decoration:none;font-weight:600;border-radius:10px;padding:10px 14px;margin:4px 4px 0 0}
+</style>
+</head>
+<body>
+<header>
+  <h1>crypto-kit</h1>
+  <p class="mut">The shared crypto core: AES-256-GCM, PBKDF2 passphrase keys, sealed envelopes and a one-time-view helper. One file, Web Crypto. MIT.</p>
+  <p><a class="btn" href="./demo/">Run the self-test</a> <a class="btn" href="https://github.com/drsamonline/crypto-kit">Source</a></p>
+</header>
+<main>
+  <div class="grid">
+    <div class="card"><h3>AES-256-GCM</h3><p>Authenticated encryption — tampering is detected, not silently accepted.</p></div>
+    <div class="card"><h3>PBKDF2 keys</h3><p>Passphrases become keys; 250,000 iterations by default.</p></div>
+    <div class="card"><h3>Sealed envelope</h3><p>salt + iv + ciphertext as bytes or base64 — portable and self-contained.</p></div>
+    <div class="card"><h3>One-time view</h3><p>Seal with a random key and delete it after the first open.</p></div>
+  </div>
+  <p class="mut">Never hand-roll cryptography. This is the one place it lives.</p>
+</main>
+<footer class="mut">Built with crypto-kit · © 2026 Dr Sohil Momin · Part of the Forge system</footer>
+</body>
+</html>

@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>crypto-kit — self-test</title>
+<style>
+  :root{--bg:#0f1115;--card:#171a21;--ink:#e7e9ee;--mut:#9aa3b2;--line:#252a34;--ok:#22c55e;--bad:#ef4444}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
+  header,main,footer{max-width:760px;margin:0 auto;padding:20px}
+  pre{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px;white-space:pre-wrap}
+  .mut{color:var(--mut)}
+</style>
+</head>
+<body>
+<header>
+  <h1>crypto-kit — self-test</h1>
+  <p class="mut">Runs the crypto round-trip in your browser. Needs https (this page is on GitHub Pages).</p>
+</header>
+<main><pre id="out">Running…</pre></main>
+<footer class="mut">© 2026 Dr Sohil Momin</footer>
+<script src="../crypto-kit.js"></script>
+<script>
+  var out = [], pass = 0, fail = 0, IT = 5000;
+  function eq(a,b){ if(a.length!==b.length) return false; for(var i=0;i<a.length;i++) if(a[i]!==b[i]) return false; return true; }
+  async function ok(name, fn){ try { await fn(); pass++; out.push("PASS  "+name); } catch(e){ fail++; out.push("FAIL  "+name+"  — "+e.message); } }
+  function shouldThrow(p){ return p.then(function(){ throw new Error("expected rejection"); }, function(){ return true; }); }
+  (async function(){
+    if (!CryptoKit.available()) { document.getElementById("out").textContent = "Web Crypto not available (needs a secure context)."; return; }
+    await ok("seal/open round-trip", async function(){
+      var b64 = await CryptoKit.sealString("hello from the browser", "pw", { iterations: IT });
+      var t = await CryptoKit.openString(b64, "pw");
+      if (t !== "hello from the browser") throw new Error("mismatch");
+    });
+    await ok("wrong passphrase rejected", async function(){
+      var env = await CryptoKit.seal(CryptoKit.bytes.fromText("secret"), "right", { iterations: IT });
+      await shouldThrow(CryptoKit.open(env, "wrong"));
+    });
+    await ok("tampering detected", async function(){
+      var env = await CryptoKit.seal(CryptoKit.bytes.fromText("secret"), "pw", { iterations: IT });
+      env[env.length-1] ^= 0xFF;
+      await shouldThrow(CryptoKit.open(env, "pw"));
+    });
+    await ok("unicode round-trip", async function(){
+      var s = "नमस्ते · કેમ છો";
+      var b64 = await CryptoKit.sealString(s, "pw", { iterations: IT });
+      if (await CryptoKit.openString(b64, "pw") !== s) throw new Error("mismatch");
+    });
+    document.getElementById("out").textContent = out.join("\n") + "\n\n" + pass + " passed, " + fail + " failed";
+  })();
+</script>
+</body>
+</html>
