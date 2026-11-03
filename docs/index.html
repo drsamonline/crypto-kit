@@ -23,6 +23,11 @@
 <header>
   <h1>crypto-kit</h1>
   <p class="mut">The shared crypto core: AES-256-GCM, PBKDF2 passphrase keys, sealed envelopes and a one-time-view helper. One file, Web Crypto. MIT.</p>
+<figure style="margin:26px 0 0;text-align:center">
+  <img src="assets/concept.svg" alt="A diagram of what this kit does"
+       style="width:100%;max-width:320px;height:auto">
+</figure>
+
   <p><a class="btn" href="./demo/">Run the self-test</a> <a class="btn" href="https://github.com/drsamonline/crypto-kit">Source</a></p>
 </header>
 <main>
@@ -333,6 +338,19 @@ window.__importAll = function () {
 /* A FOCUS RING, because a keyboard you cannot see is not access. Most of these apps
    removed the default outline and never replaced it. */
 :focus-visible{outline:2px solid currentColor;outline-offset:2px}
+
+  /* ---------- light theme ----------
+     Added so the page reads on paper. It overrides the page's own variables and
+     nothing else — no markup, no layout, no type. */
+  :root, html {
+    color-scheme: light;
+    --bg: #f7f6f2;
+    --card: #ffffff;
+    --ink: #14161a;
+    --mut: #5c6470;
+    --line: #e2ddd2;
+    --acc: #178840;
+  }
 </style>
 <script>
 /* KEYBOARD ACCESS — hooked at document, like the undo is hooked at the store.
